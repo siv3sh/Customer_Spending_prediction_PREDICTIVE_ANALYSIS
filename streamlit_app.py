@@ -936,9 +936,24 @@ if df is not None:
             st.subheader("6. Customer Segmentation Analysis")
             if 'models' in st.session_state:
                 model = st.session_state['models'][st.session_state.get('best_model', 'Linear Regression')]
-                X = df_processed.drop(['CustomerID', 'Spending Score (1-100)', 'Age_Group', 'Income_Group'], axis=1, errors='ignore')
-                df_processed['Predicted_Spending'] = model.predict(scaler.transform(X))
-                df_processed['Customer_Segment'] = pd.cut(df_processed['Predicted_Spending'], 
+                
+                # Prepare X for prediction (reuse the same X_encoded from above)
+                X_seg = df_processed.drop(['CustomerID', 'Spending Score (1-100)', 'Age_Group', 'Income_Group', 'Predicted_Spending'], axis=1, errors='ignore')
+                
+                # Encode categorical variables to match training data
+                X_seg_encoded = X_seg.copy()
+                for col in X_seg_encoded.select_dtypes(include=['object', 'category']).columns:
+                    if col in label_encoders:
+                        X_seg_encoded[col] = label_encoders[col].transform(X_seg_encoded[col].astype(str))
+                
+                # Ensure columns match training data
+                X_train_cols = X_train_scaled.columns
+                X_seg_encoded = X_seg_encoded[X_train_cols]
+                
+                # Scale and predict
+                X_seg_scaled = scaler.transform(X_seg_encoded)
+                df_processed['Customer_Segment_Pred'] = model.predict(X_seg_scaled)
+                df_processed['Customer_Segment'] = pd.cut(df_processed['Customer_Segment_Pred'], 
                                                        bins=[0, 30, 50, 70, 100], 
                                                        labels=['Low Spender', 'Medium Spender', 'High Spender', 'VIP'])
                 
