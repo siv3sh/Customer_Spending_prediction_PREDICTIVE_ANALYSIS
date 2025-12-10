@@ -23,8 +23,14 @@ except:
     try:
         plt.style.use('seaborn-darkgrid')
     except:
-        plt.style.use('ggplot')
-sns.set_palette("husl")
+        try:
+            plt.style.use('ggplot')
+        except:
+            pass
+try:
+    sns.set_palette("husl")
+except:
+    pass
 
 # Set random seed for reproducibility
 np.random.seed(42)
