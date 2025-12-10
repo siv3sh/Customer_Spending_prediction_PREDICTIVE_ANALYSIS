@@ -16,8 +16,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from mpl_toolkits.mplot3d import Axes3D
-from pdf_generator import create_pdf_report
-from docx_generator import create_docx_report
 
 # Set style for better visualizations
 try:
