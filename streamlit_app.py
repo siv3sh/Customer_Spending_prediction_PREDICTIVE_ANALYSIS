@@ -811,60 +811,6 @@ if df is not None:
     
     # PAGE 7: Insights & Report
     elif page == "📋 Insights & Report":
-        # Add Report generation buttons at the top
-        if 'results' in st.session_state and 'models' in st.session_state:
-            st.subheader("📄 Generate Reports")
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("📥 Generate DOCX Report", type="primary", use_container_width=True):
-                    with st.spinner("Generating DOCX report... This may take a moment."):
-                        try:
-                            docx_buffer = create_docx_report(
-                                df, df_processed, 
-                                st.session_state['models'], 
-                                st.session_state['results'],
-                                st.session_state.get('best_model', 'Linear Regression'),
-                                X_train_scaled,
-                                scaler,
-                                label_encoders
-                            )
-                            st.success("✅ DOCX report generated successfully!")
-                            st.download_button(
-                                label="📥 Download DOCX Report",
-                                data=docx_buffer.getvalue(),
-                                file_name="customer_spending_analysis_report.docx",
-                                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                                use_container_width=True
-                            )
-                        except Exception as e:
-                            st.error(f"Error generating DOCX: {str(e)}")
-            
-            with col2:
-                if st.button("📥 Generate PDF Report", type="primary", use_container_width=True):
-                    with st.spinner("Generating PDF report... This may take a moment."):
-                        try:
-                            pdf_buffer = create_pdf_report(
-                                df, df_processed, 
-                                st.session_state['models'], 
-                                st.session_state['results'],
-                                st.session_state.get('best_model', 'Linear Regression'),
-                                X_train_scaled,
-                                scaler,
-                                label_encoders
-                            )
-                            st.success("✅ PDF report generated successfully!")
-                            st.download_button(
-                                label="📥 Download PDF Report",
-                                data=pdf_buffer.getvalue(),
-                                file_name="customer_spending_analysis_report.pdf",
-                                mime="application/pdf",
-                                use_container_width=True
-                            )
-                        except Exception as e:
-                            st.error(f"Error generating PDF: {str(e)}")
-            st.divider()
-        
         st.header("📋 Insights & Reporting")
         
         if 'results' not in st.session_state:
