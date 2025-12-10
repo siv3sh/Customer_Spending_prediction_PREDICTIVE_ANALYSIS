@@ -15,7 +15,6 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from mpl_toolkits.mplot3d import Axes3D
 
 # Set style for better visualizations
 try:
