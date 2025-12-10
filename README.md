@@ -23,13 +23,24 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Running the Streamlit App
+### Running the Streamlit App Locally
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
 The app will open in your default web browser at `http://localhost:8501`
+
+### Deploying to Streamlit Cloud
+
+1. Push your code to GitHub (already done!)
+2. Go to [Streamlit Cloud](https://streamlit.io/cloud)
+3. Click "New app"
+4. Select your repository: `siv3sh/Customer_Spending_prediction_PREDICTIVE_ANALYSIS`
+5. Set the main file path to: `streamlit_app.py`
+6. Click "Deploy"
+
+Your app will be live at: `https://your-app-name.streamlit.app`
 
 ### Running the Jupyter Notebook
 
