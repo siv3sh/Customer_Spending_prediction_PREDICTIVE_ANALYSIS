@@ -867,8 +867,9 @@ if df is not None:
             
             st.subheader("3. Marketing Insights & Recommendations")
             
-            # Analyze segments
-            df_processed['Predicted_Spending'] = model.predict(st.session_state['scaler'].transform(X))
+            # Analyze segments - prepare X properly (X_encoded was already created above)
+            # X_encoded and X_scaled are already available from the code above
+            # df_processed['Predicted_Spending'] is already set above
             df_processed['Spending_Category'] = pd.cut(df_processed['Predicted_Spending'], 
                                                        bins=[0, 30, 50, 70, 100], 
                                                        labels=['Low', 'Medium', 'High', 'Very High'])
