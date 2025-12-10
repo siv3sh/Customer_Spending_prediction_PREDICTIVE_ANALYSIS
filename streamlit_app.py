@@ -867,9 +867,22 @@ if df is not None:
             
             st.subheader("3. Marketing Insights & Recommendations")
             
-            # Analyze segments - prepare X properly (X_encoded was already created above)
-            # X_encoded and X_scaled are already available from the code above
-            # df_processed['Predicted_Spending'] is already set above
+            # Analyze segments - prepare X properly
+            X = df_processed.drop(['CustomerID', 'Spending Score (1-100)', 'Age_Group', 'Income_Group'], axis=1, errors='ignore')
+            
+            # Encode categorical variables to match training data
+            X_encoded = X.copy()
+            for col in X_encoded.select_dtypes(include=['object', 'category']).columns:
+                if col in label_encoders:
+                    X_encoded[col] = label_encoders[col].transform(X_encoded[col].astype(str))
+            
+            # Ensure columns match training data
+            X_train_cols = X_train_scaled.columns
+            X_encoded = X_encoded[X_train_cols]
+            
+            # Scale and predict
+            X_scaled = scaler.transform(X_encoded)
+            df_processed['Predicted_Spending'] = model.predict(X_scaled)
             df_processed['Spending_Category'] = pd.cut(df_processed['Predicted_Spending'], 
                                                        bins=[0, 30, 50, 70, 100], 
                                                        labels=['Low', 'Medium', 'High', 'Very High'])
